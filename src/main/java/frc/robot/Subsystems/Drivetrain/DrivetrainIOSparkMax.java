@@ -4,34 +4,34 @@
 
 package frc.robot.Subsystems.Drivetrain;
 
-import com.revrobotics.CANSparkMax;
+import com.revrobotics.spark.SparkClosedLoopController;
+import com.revrobotics.spark.SparkMax;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkPIDController;
-import com.revrobotics.CANSparkBase.ControlType;
-import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.spark.SparkBase.ControlType;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import edu.wpi.first.math.util.Units;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.MotorConstants;
 
 public class DrivetrainIOSparkMax implements DrivetrainIO {
-    private final CANSparkMax leftMain = new CANSparkMax(MotorConstants.driveLeftMain, MotorType.kBrushless);
-    private final CANSparkMax leftFollow = new CANSparkMax(MotorConstants.driveLeftFollow, MotorType.kBrushless);
+    private final SparkMax leftMain = new SparkMax(MotorConstants.driveLeftMain, MotorType.kBrushless);
+    private final SparkMax leftFollow = new SparkMax(MotorConstants.driveLeftFollow, MotorType.kBrushless);
     private final RelativeEncoder leftEncoder = leftMain.getEncoder();
 
-    private final CANSparkMax rightMain = new CANSparkMax(MotorConstants.driveRightMain, MotorType.kBrushless);
-    private final CANSparkMax rightFollow = new CANSparkMax(MotorConstants.driveRightFollow, MotorType.kBrushless);
+    private final SparkMax rightMain = new SparkMax(MotorConstants.driveRightMain, MotorType.kBrushless);
+    private final SparkMax rightFollow = new SparkMax(MotorConstants.driveRightFollow, MotorType.kBrushless);
     private final RelativeEncoder rightEncoder = rightMain.getEncoder();
 
     private boolean isClosedLoop = false;
-    private final SparkPIDController leftPID = leftMain.getPIDController();
-    private final SparkPIDController rightPID = rightMain.getPIDController();    
+    private final SparkClosedLoopController leftPID = leftMain.getClosedLoopController();
+    private final SparkClosedLoopController rightPID = rightMain.getClosedLoopController();    
 
     public DrivetrainIOSparkMax() {
-        leftMain.restoreFactoryDefaults();
-        leftFollow.restoreFactoryDefaults();
-        rightMain.restoreFactoryDefaults();
-        rightFollow.restoreFactoryDefaults();
+        //leftMain.restoreFactoryDefaults(); //I guess I just get rid of this??
+        //leftFollow.restoreFactoryDefaults();
+        //rightMain.restoreFactoryDefaults();
+        //rightFollow.restoreFactoryDefaults();
 
         leftMain.setCANTimeout(250);
         leftFollow.setCANTimeout(250);
