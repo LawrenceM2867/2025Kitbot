@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Subsystems.Drivetrain.DrivetrainIO.DrivetrainIOInputs;
 
 public class DrivetrainSubsystem extends SubsystemBase {
   DrivetrainIO io;
