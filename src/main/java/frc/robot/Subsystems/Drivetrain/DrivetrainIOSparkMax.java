@@ -6,8 +6,11 @@ package frc.robot.Subsystems.Drivetrain;
 
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkBase.ControlType;
+import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import edu.wpi.first.math.util.Units;
@@ -25,41 +28,38 @@ public class DrivetrainIOSparkMax implements DrivetrainIO {
 
     private boolean isClosedLoop = false;
     private final SparkClosedLoopController leftPID = leftMain.getClosedLoopController();
-    private final SparkClosedLoopController rightPID = rightMain.getClosedLoopController();    
+    private final SparkClosedLoopController rightPID = rightMain.getClosedLoopController();
+    
+    SparkMaxConfig leftMainConfig = new SparkMaxConfig();
+    SparkMaxConfig rightMainConfig = new SparkMaxConfig();
+    SparkMaxConfig leftFollowConfig = new SparkMaxConfig();
+    SparkMaxConfig rightFollowConfig = new SparkMaxConfig();
 
     public DrivetrainIOSparkMax() {
-        //leftMain.restoreFactoryDefaults(); //I guess I just get rid of this??
-        //leftFollow.restoreFactoryDefaults();
-        //rightMain.restoreFactoryDefaults();
-        //rightFollow.restoreFactoryDefaults();
-
         leftMain.setCANTimeout(250);
         leftFollow.setCANTimeout(250);
         rightMain.setCANTimeout(250);
         rightFollow.setCANTimeout(250);
 
-        leftMain.setInverted(true);
-        rightMain.setInverted(false);
+        leftMainConfig.inverted(true);
+        rightMainConfig.inverted(false);
 
-        leftFollow.follow(leftMain);
-        rightFollow.follow(rightMain);
+        leftFollowConfig.follow(leftMain);
+        rightFollowConfig.follow(rightMain);
 
-        leftMain.enableVoltageCompensation(12.0);
-        rightMain.enableVoltageCompensation(12.0);
+        leftMainConfig.voltageCompensation(12.0);
+        rightMainConfig.voltageCompensation(12.0);
 
-        leftMain.setSmartCurrentLimit(40);
-        rightMain.setSmartCurrentLimit(40);
+        leftMainConfig.smartCurrentLimit(40);
+        rightMainConfig.smartCurrentLimit(40);
 
-        leftPID.setP(DriveConstants.kPReal);
-        leftPID.setD(DriveConstants.kDReal);
-        rightPID.setP(DriveConstants.kPReal);
-        rightPID.setD(DriveConstants.kDReal);
+        leftMainConfig.closedLoop.pid(DriveConstants.kPReal, 0, DriveConstants.kDReal);
+        rightMainConfig.closedLoop.pid(DriveConstants.kPReal, 0, DriveConstants.kDReal);
 
-        leftMain.burnFlash();
-        leftFollow.burnFlash();
-        rightMain.burnFlash();
-        rightFollow.burnFlash();
-        
+        leftMain.configure(leftMainConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        rightMain.configure(rightMainConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        leftFollow.configure(leftFollowConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        rightFollow.configure(rightFollowConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
 
     @Override
@@ -91,7 +91,7 @@ public class DrivetrainIOSparkMax implements DrivetrainIO {
 
     @Override
     public void setMetersPerSecond(double left, double right) {
-        leftPID.setReference(Units.radiansPerSecondToRotationsPerMinute(left * DriveConstants.gearRatio), ControlType.kVelocity, 0, DriveConstants.kV);
-        rightPID.setReference(Units.radiansPerSecondToRotationsPerMinute(right * DriveConstants.gearRatio), ControlType.kVelocity, 0, DriveConstants.kV);
+        leftPID.setReference(Units.radiansPerSecondToRotationsPerMinute(left * DriveConstants.gearRatio), ControlType.kVelocity);
+        rightPID.setReference(Units.radiansPerSecondToRotationsPerMinute(right * DriveConstants.gearRatio), ControlType.kVelocity);
     }
 }

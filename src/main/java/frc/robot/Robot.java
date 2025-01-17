@@ -19,6 +19,7 @@ public class Robot extends LoggedRobot {
 
   private RobotContainer m_robotContainer;
 
+  @SuppressWarnings("resource")
   @Override
   public void robotInit() {
     m_robotContainer = new RobotContainer();

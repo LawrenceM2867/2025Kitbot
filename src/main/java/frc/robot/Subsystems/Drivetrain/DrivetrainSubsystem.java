@@ -22,7 +22,7 @@ import frc.robot.Subsystems.Drivetrain.DrivetrainIO.DrivetrainIOInputs;
 
 public class DrivetrainSubsystem extends SubsystemBase {
   DrivetrainIO io;
-  DrivetrainIOInputsAutoLogged inputs = new DrivetrainIOInputsAutoLogged();
+  DrivetrainIOInputs inputs = new DrivetrainIOInputs();
 
   DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(new Rotation2d(), 0, 0);
   DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(DriveConstants.trackWidth);
@@ -37,7 +37,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     io.updateInputs(inputs);
-    Logger.processInputs("Drivetrain", inputs);
+    //Logger.processInputs("Drivetrain", inputs); //I know I need this
 
     odometry.update(inputs.gyroYaw, inputs.leftPositionMeters, inputs.rightPositionMeters);
     

@@ -8,9 +8,6 @@ import edu.wpi.first.math.util.Units;
 
 /** Add your docs here. */
 public final class Constants {
-    public static final int drivetrainLeftFalconID = 0;
-    public static final int drivetrainRightFalconID = 1;
-
     public static class DriveConstants {
         public static final double wheelRadius = Units.inchesToMeters(3.0);
         public static final double kLeftFFVoltsSim = 0.0;
@@ -32,11 +29,19 @@ public final class Constants {
         public static double kDReal = 0.0;
     }
 
+    public static class RollerConstants {
+        public static final int ROLLER_MOTOR_CURRENT_LIMIT = 60;
+        public static final double ROLLER_MOTOR_VOLTAGE_COMP = 10;
+        public static final double ROLLER_EJECT_VALUE = 0.44;
+    }
+
     public static class MotorConstants {
         public static final int driveLeftMain = 1;
         public static final int driveLeftFollow = 2;
 
         public static final int driveRightMain = 1;
         public static final int driveRightFollow = 2;
+
+        public static final int rollerID = 3;
     }
 }
