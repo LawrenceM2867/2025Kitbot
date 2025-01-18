@@ -32,8 +32,7 @@ public class RobotContainer {
         () -> modifyJoystick(controller.getLeftX()),
         () -> DriveConstants.isClosedLoop));
 
-    controller.a()
-        .whileTrue(rollerSubsystem.runRoller(rollerSubsystem, () -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0));
+    controller.a().whileTrue(rollerSubsystem.runRoller(rollerSubsystem, () -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0));
     
     rollerSubsystem.setDefaultCommand(
       rollerSubsystem.runRoller(
