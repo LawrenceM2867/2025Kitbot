@@ -7,10 +7,10 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.RollerConstants;
 import frc.robot.Subsystems.Drivetrain.DrivetrainIOSim;
 import frc.robot.Subsystems.Drivetrain.DrivetrainSubsystem;
+import frc.robot.Subsystems.Drivetrain.DrivetrainTalonSRX;
 import frc.robot.Subsystems.Roller.RollerSubsystem;
 
 public class RobotContainer {
@@ -21,16 +21,16 @@ public class RobotContainer {
   RollerSubsystem rollerSubsystem;
 
   public RobotContainer() {
-    drivetrainSubsystem = new DrivetrainSubsystem(new DrivetrainIOSim());
+    drivetrainSubsystem = new DrivetrainSubsystem(new DrivetrainTalonSRX());
+    rollerSubsystem = new RollerSubsystem();
     configureBindings();
   }
 
   private void configureBindings() {
     drivetrainSubsystem.setDefaultCommand(
-      drivetrainSubsystem.driveCommand(
+      drivetrainSubsystem.setVoltagesArcadeCommand(
         () -> modifyJoystick(controller.getLeftY()),
-        () -> modifyJoystick(controller.getLeftX()),
-        () -> DriveConstants.isClosedLoop));
+        () -> modifyJoystick(controller.getLeftX())));
 
     controller.a().whileTrue(rollerSubsystem.runRoller(rollerSubsystem, () -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0));
     

@@ -1,70 +1,64 @@
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
+
 package frc.robot.Subsystems.Drivetrain;
 
-import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.controller.PIDController;
+import com.ctre.phoenix6.controls.VoltageOut;
+import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim.KitbotGearing;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim.KitbotMotor;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim.KitbotWheelSize;
-import frc.robot.Constants.DriveConstants;
+import edu.wpi.first.wpilibj.simulation.RoboRioSim;
+import frc.robot.Constants.SimConstants;
 
+/** Add your docs here. */
 public class DrivetrainIOSim implements DrivetrainIO {
-    private double leftAppliedVolts = 0.0;
-    private double rightAppliedVolts = 0.0;
 
-    DifferentialDrivetrainSim sim = DifferentialDrivetrainSim.createKitbotSim(
-    KitbotMotor.kDoubleNEOPerSide,
+    TalonFX leftFalcon = new TalonFX(SimConstants.drivetrainLeftFalconID);
+    TalonFX rightFalcon = new TalonFX(SimConstants.drivetrainRightFalconID);
+    
+    
+    VoltageOut leftVoltage = new VoltageOut(0);
+    VoltageOut rightVoltage = new VoltageOut(0);
+
+    DifferentialDrivetrainSim physicsSim = DifferentialDrivetrainSim.createKitbotSim(
+    KitbotMotor.kDoubleFalcon500PerSide,
     KitbotGearing.k8p45,
     KitbotWheelSize.kSixInch,
     null);
 
-    private boolean isClosedLoop = false;
-    private PIDController leftPID = new PIDController(DriveConstants.kPSim, DriveConstants.kISim, DriveConstants.kDSim);
-    private PIDController rightPID = new PIDController(DriveConstants.kPSim, DriveConstants.kISim, DriveConstants.kDSim);
-
     @Override
     public void updateInputs(DrivetrainIOInputs inputs) {
-        if (isClosedLoop) {
-            leftAppliedVolts = MathUtil.clamp(leftPID.calculate(sim.getLeftVelocityMetersPerSecond() / DriveConstants.wheelRadius) + DriveConstants.kLeftFFVoltsSim, -12.0, 12.0);
-            rightAppliedVolts = MathUtil.clamp(rightPID.calculate(sim.getRightVelocityMetersPerSecond() / DriveConstants.wheelRadius) + DriveConstants.kRightFFVoltsSim, -12.0, 12.0);
-        }
-        sim.update(0.020);
+        physicsSim.update(0.020);
 
-        sim.setInputs(leftAppliedVolts, rightAppliedVolts);
+        var leftSimState = leftFalcon.getSimState();
+        leftSimState.setSupplyVoltage(RoboRioSim.getVInVoltage());
 
-        inputs.leftRotationsRad = sim.getLeftPositionMeters() / DriveConstants.wheelRadius;
-        inputs.leftPositionMeters = sim.getLeftPositionMeters();
-        inputs.leftVelocityRadPerSec = sim.getLeftVelocityMetersPerSecond() / DriveConstants.wheelRadius;
-        inputs.leftVelocityMetersPerSecond = sim.getLeftVelocityMetersPerSecond();
-        inputs.leftVelocityGoalMetersPerSecond = (leftPID.getSetpoint());
-        inputs.leftAppliedVolts = leftAppliedVolts;
-        inputs.leftCurrentAmps = new double[] {sim.getLeftCurrentDrawAmps()};
-        inputs.leftTempCelsius = new double[] {};
+        var rightSimState = rightFalcon.getSimState();
+        rightSimState.setSupplyVoltage(RoboRioSim.getVInVoltage());
 
-        inputs.rightRotationsRad = sim.getRightPositionMeters() / DriveConstants.wheelRadius;
-        inputs.rightPositionMeters = sim.getRightPositionMeters();
-        inputs.rightVelocityRadPerSec = sim.getRightVelocityMetersPerSecond() / DriveConstants.wheelRadius;
-        inputs.rightVelocityMetersPerSecond = sim.getRightVelocityMetersPerSecond();
-        inputs.rightVelocityGoalMetersPerSecond = (rightPID.getSetpoint());
-        inputs.rightAppliedVolts = rightAppliedVolts;
-        inputs.rightCurrentAmps = new double[] {sim.getRightCurrentDrawAmps()};
-        inputs.rightTempCelsius = new double[] {};
+        physicsSim.setInputs(leftSimState.getMotorVoltage(), rightSimState.getMotorVoltage());
 
-        inputs.isClosedLoop = isClosedLoop;
-        inputs.gyroYaw = sim.getHeading();
+        inputs.leftOutputVolts = leftSimState.getMotorVoltage();
+        inputs.rightOutputVolts = rightSimState.getMotorVoltage();
+
+        inputs.leftVelocityMetersPerSecond = physicsSim.getLeftVelocityMetersPerSecond();;
+        inputs.rightVelocityMetersPerSecond = physicsSim.getRightVelocityMetersPerSecond();;
+
+        inputs.leftPositionMeters = physicsSim.getLeftPositionMeters();
+        inputs.rightPositionMeters = physicsSim.getRightPositionMeters();
+
+        inputs.leftCurrentAmps = new double[] {leftSimState.getTorqueCurrent()};
+        inputs.leftTempCelsius = new double[0];
+        inputs.rightCurrentAmps = new double[] {rightSimState.getTorqueCurrent()};
+        inputs.rightTempCelsius = new double[0];
     }
 
     @Override
     public void setVolts(double left, double right) {
-        leftAppliedVolts = -left;
-        rightAppliedVolts = -right;
-        isClosedLoop = false;
-    }
-
-    @Override
-    public void setMetersPerSecond(double left, double right) {
-        isClosedLoop = true;
-        leftPID.setSetpoint(left);
-        rightPID.setSetpoint(right);
+        leftFalcon.setControl(leftVoltage.withOutput(left));
+        rightFalcon.setControl(rightVoltage.withOutput(right));        
     }
 }
