@@ -6,16 +6,14 @@ package frc.robot.Subsystems.Roller;
 
 import org.littletonrobotics.junction.AutoLog;
 
-import frc.robot.Subsystems.Drivetrain.DrivetrainIO.DrivetrainIOInputs;
-
 /** Add your docs here. */
 public interface RollerIO {
     @AutoLog
     public static class RollerIOInputs {
-        
+
     }
 
-    public abstract void updateInputs(DrivetrainIOInputs inputs);
+    public abstract void updateInputs(RollerIOInputs inputs);
 
     public abstract void setVolts(double left, double right);
 }

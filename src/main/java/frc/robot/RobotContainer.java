@@ -11,6 +11,7 @@ import frc.robot.Constants.RollerConstants;
 import frc.robot.Subsystems.Drivetrain.DrivetrainIOSim;
 import frc.robot.Subsystems.Drivetrain.DrivetrainSubsystem;
 import frc.robot.Subsystems.Drivetrain.DrivetrainTalonSRX;
+import frc.robot.Subsystems.Roller.RollerSparkMax;
 import frc.robot.Subsystems.Roller.RollerSubsystem;
 
 public class RobotContainer {
@@ -21,8 +22,8 @@ public class RobotContainer {
   RollerSubsystem rollerSubsystem;
 
   public RobotContainer() {
-    drivetrainSubsystem = new DrivetrainSubsystem(new DrivetrainTalonSRX());
-    rollerSubsystem = new RollerSubsystem();
+    drivetrainSubsystem = new DrivetrainSubsystem(new DrivetrainIOSim());
+    rollerSubsystem = new RollerSubsystem(new RollerSparkMax());
     configureBindings();
   }
 
@@ -32,11 +33,10 @@ public class RobotContainer {
         () -> modifyJoystick(controller.getLeftY()),
         () -> modifyJoystick(controller.getLeftX())));
 
-    controller.a().whileTrue(rollerSubsystem.runRoller(rollerSubsystem, () -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0));
+    controller.a().whileTrue(rollerSubsystem.runRoller(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0));
     
     rollerSubsystem.setDefaultCommand(
       rollerSubsystem.runRoller(
-        rollerSubsystem,
           () -> controller.getRightTriggerAxis(),
           () -> controller.getLeftTriggerAxis()));
   }

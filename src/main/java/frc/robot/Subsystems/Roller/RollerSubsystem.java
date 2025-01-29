@@ -4,40 +4,32 @@
 
 package frc.robot.Subsystems.Roller;
 
-import frc.robot.Constants.MotorConstants;
-import frc.robot.Constants.RollerConstants;
-
-import com.revrobotics.spark.SparkMax;
-import com.revrobotics.spark.config.SparkMaxConfig;
-
 import java.util.function.DoubleSupplier;
 
-import com.revrobotics.spark.SparkBase.PersistMode;
-import com.revrobotics.spark.SparkBase.ResetMode;
-import com.revrobotics.spark.SparkLowLevel.MotorType;
-
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Subsystems.Roller.RollerIO.RollerIOInputs;
 
 /** Add your docs here. */
 public class RollerSubsystem extends SubsystemBase {
-    private final SparkMax rollermotor = new SparkMax(MotorConstants.rollerID, MotorType.kBrushed);
+    RollerIO io;
+    RollerIOInputs inputs = new RollerIOInputs();
 
-    public RollerSubsystem() {
-        rollermotor.setCANTimeout(250);
-
-        SparkMaxConfig rollerConfig = new SparkMaxConfig();
-        rollerConfig.voltageCompensation(RollerConstants.ROLLER_MOTOR_VOLTAGE_COMP);
-        rollerConfig.smartCurrentLimit(RollerConstants.ROLLER_MOTOR_CURRENT_LIMIT);
-        rollermotor.configure(rollerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    public RollerSubsystem(RollerIO io) {
+        this.io = io;
     }
 
     @Override
-    public void periodic() {}
-
-    public Command runRoller(RollerSubsystem rollerSubsystem, DoubleSupplier forward, DoubleSupplier reverse) {
-        return Commands.run(
-        () -> rollermotor.set(forward.getAsDouble() - reverse.getAsDouble()), rollerSubsystem);
+    public void periodic() {
+        io.updateInputs(inputs);
     }
+
+    public Command runRoller(DoubleSupplier forward, DoubleSupplier reverse) {
+        return new RunCommand(() -> this.setVoltages(forward.getAsDouble(), reverse.getAsDouble()), this);
+    }
+
+    private void setVoltages(double left, double right) {
+        io.setVolts(left, right);
+      }
 }
