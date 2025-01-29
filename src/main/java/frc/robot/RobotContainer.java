@@ -7,7 +7,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.Constants.RollerConstants;
 import frc.robot.Subsystems.Drivetrain.DrivetrainIOSim;
 import frc.robot.Subsystems.Drivetrain.DrivetrainSubsystem;
 import frc.robot.Subsystems.Drivetrain.DrivetrainTalonSRX;
@@ -22,7 +21,7 @@ public class RobotContainer {
   RollerSubsystem rollerSubsystem;
 
   public RobotContainer() {
-    drivetrainSubsystem = new DrivetrainSubsystem(new DrivetrainIOSim());
+    drivetrainSubsystem = new DrivetrainSubsystem(new DrivetrainTalonSRX());
     rollerSubsystem = new RollerSubsystem(new RollerSparkMax());
     configureBindings();
   }
@@ -33,12 +32,8 @@ public class RobotContainer {
         () -> modifyJoystick(controller.getLeftY()),
         () -> modifyJoystick(controller.getLeftX())));
 
-    controller.a().whileTrue(rollerSubsystem.runRoller(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0));
-    
-    rollerSubsystem.setDefaultCommand(
-      rollerSubsystem.runRoller(
-          () -> controller.getRightTriggerAxis(),
-          () -> controller.getLeftTriggerAxis()));
+    controller.leftTrigger().whileTrue(rollerSubsystem.runRoller(() -> 6));
+    controller.rightTrigger().whileTrue(rollerSubsystem.runRoller(() -> -6));
   }
 
   private double modifyJoystick(double in) {

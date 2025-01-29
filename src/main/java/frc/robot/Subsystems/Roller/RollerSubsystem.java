@@ -25,11 +25,11 @@ public class RollerSubsystem extends SubsystemBase {
         io.updateInputs(inputs);
     }
 
-    public Command runRoller(DoubleSupplier forward, DoubleSupplier reverse) {
-        return new RunCommand(() -> this.setVoltages(forward.getAsDouble(), reverse.getAsDouble()), this);
+    public Command runRoller(DoubleSupplier speed) {
+        return new RunCommand(() -> this.setVoltages(speed.getAsDouble()), this);
     }
 
-    private void setVoltages(double left, double right) {
-        io.setVolts(left, right);
+    private void setVoltages(double speed) {
+        io.setVolts(speed);
       }
 }

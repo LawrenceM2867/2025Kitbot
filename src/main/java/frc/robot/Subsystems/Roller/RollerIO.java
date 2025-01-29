@@ -15,5 +15,5 @@ public interface RollerIO {
 
     public abstract void updateInputs(RollerIOInputs inputs);
 
-    public abstract void setVolts(double left, double right);
+    public abstract void setVolts(double speed);
 }

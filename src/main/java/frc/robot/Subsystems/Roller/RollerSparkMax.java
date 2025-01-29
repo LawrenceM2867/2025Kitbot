@@ -32,7 +32,7 @@ public class RollerSparkMax implements RollerIO {
     }
 
     @Override
-    public void setVolts(double forward, double reverse) {
-        rollermotor.set(forward - reverse);
+    public void setVolts(double speed) {
+        rollermotor.set(speed);
     }
 }
