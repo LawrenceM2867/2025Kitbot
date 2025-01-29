@@ -23,8 +23,8 @@ public class DrivetrainTalonSRX implements DrivetrainIO {
         TLB.follow(TLF);
         TRB.follow(TRF);
 
-        TLF.setNeutralMode(NeutralMode.Brake);
-        TRF.setNeutralMode(NeutralMode.Brake);
+        TLF.setNeutralMode(NeutralMode.Coast);
+        TRF.setNeutralMode(NeutralMode.Coast);
 
         TLF.setInverted(true);
     }
@@ -42,11 +42,8 @@ public class DrivetrainTalonSRX implements DrivetrainIO {
 
     @Override
     public void setVolts(double left, double right) {
-        TLF.set(TalonSRXControlMode.PercentOutput, left/RobotController.getInputVoltage());
-        TLB.set(TalonSRXControlMode.PercentOutput, left/RobotController.getInputVoltage());
-
-        TRF.set(TalonSRXControlMode.PercentOutput, right/RobotController.getInputVoltage());
-        TRB.set(TalonSRXControlMode.PercentOutput, right/RobotController.getInputVoltage());
+        TLF.set(TalonSRXControlMode.PercentOutput, left);
+        TRF.set(TalonSRXControlMode.PercentOutput, right);
     }
 
 }

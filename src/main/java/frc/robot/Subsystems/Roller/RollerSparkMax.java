@@ -33,6 +33,6 @@ public class RollerSparkMax implements RollerIO {
 
     @Override
     public void setVolts(double speed) {
-        rollermotor.set(speed);
+        rollermotor.setVoltage(speed);
     }
 }
