@@ -32,8 +32,9 @@ public class RobotContainer {
         () -> modifyJoystick(controller.getLeftY()),
         () -> modifyJoystick(controller.getLeftX())));
 
-    controller.leftTrigger().whileTrue(rollerSubsystem.runRoller(() -> 6));
-    controller.rightTrigger().whileTrue(rollerSubsystem.runRoller(() -> -6));
+    rollerSubsystem.setDefaultCommand(
+      rollerSubsystem.runRoller(
+        () -> controller.getRightX()));
   }
 
   private double modifyJoystick(double in) {

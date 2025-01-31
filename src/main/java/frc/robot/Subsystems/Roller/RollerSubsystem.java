@@ -28,7 +28,7 @@ public class RollerSubsystem extends SubsystemBase {
     public Command runRoller(DoubleSupplier speed) {
         return new RunCommand(() -> this.setVoltages(speed.getAsDouble()), this);
     }
-
+    
     private void setVoltages(double speed) {
         io.setVolts(speed);
       }
