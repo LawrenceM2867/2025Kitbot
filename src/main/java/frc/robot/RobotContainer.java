@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -34,7 +35,7 @@ public class RobotContainer {
 
     rollerSubsystem.setDefaultCommand(
       rollerSubsystem.runRoller(
-        () -> controller.getRightX()));
+        () -> MathUtil.applyDeadband(controller.getRightY(), 0.1)));
   }
 
   private double modifyJoystick(double in) {
