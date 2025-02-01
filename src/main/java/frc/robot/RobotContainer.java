@@ -22,16 +22,16 @@ public class RobotContainer {
   RollerSubsystem rollerSubsystem;
 
   public RobotContainer() {
-    drivetrainSubsystem = new DrivetrainSubsystem(new DrivetrainTalonSRX());
-    rollerSubsystem = new RollerSubsystem(new RollerSparkMax());
+    drivetrainSubsystem = new DrivetrainSubsystem(new DrivetrainTalonSRX()); //change this for when using sim
+    rollerSubsystem = new RollerSubsystem(new RollerSparkMax()); //idk how to do sim for this
     configureBindings();
   }
 
   private void configureBindings() {
     drivetrainSubsystem.setDefaultCommand(
       drivetrainSubsystem.setVoltagesArcadeCommand(
-        () -> modifyJoystick(controller.getLeftY()),
-        () -> modifyJoystick(controller.getLeftX())));
+        () -> -modifyJoystick(controller.getLeftY()) / 2,
+        () -> modifyJoystick(controller.getLeftX()) / 2));
 
     rollerSubsystem.setDefaultCommand(
       rollerSubsystem.runRoller(
