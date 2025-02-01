@@ -13,36 +13,37 @@ import frc.robot.Constants.MotorConstants;
 /** Add your docs here. */
 public class DrivetrainTalonSRX implements DrivetrainIO {
 
-    TalonSRX TLF = new TalonSRX(MotorConstants.LFTalonID);
-    TalonSRX TLB = new TalonSRX(MotorConstants.LBTalonID);
-    TalonSRX TRF = new TalonSRX(MotorConstants.RFTalonID);
-    TalonSRX TRB = new TalonSRX(MotorConstants.LFTalonID);
+    TalonSRX tLF = new TalonSRX(MotorConstants.LFTalonID);
+    TalonSRX tLB = new TalonSRX(MotorConstants.LBTalonID);
+    TalonSRX tRF = new TalonSRX(MotorConstants.RFTalonID);
+    TalonSRX tRB = new TalonSRX(MotorConstants.RBTalonID);
 
     public DrivetrainTalonSRX() {
-        TLB.follow(TLF);
-        TRB.follow(TRF);
+        tLF.setNeutralMode(NeutralMode.Coast);
+        tRF.setNeutralMode(NeutralMode.Coast);
 
-        TLF.setNeutralMode(NeutralMode.Coast);
-        TRF.setNeutralMode(NeutralMode.Coast);
+        tLF.setInverted(true);
+        tLB.setInverted(true);
 
-        TLF.setInverted(true);
+        tLB.follow(tLF);
+        tRB.follow(tRF);
     }
 
     @Override
     public void updateInputs(DrivetrainIOInputs inputs) {
-        inputs.leftOutputVolts = TLF.getMotorOutputVoltage();
-        inputs.leftTempCelsius = new double[] {(TLF.getTemperature())};
-        inputs.leftCurrentAmps = new double[] {(TLF.getSupplyCurrent())};
+        inputs.leftOutputVolts = tLF.getMotorOutputVoltage();
+        inputs.leftTempCelsius = new double[] {(tLF.getTemperature())};
+        inputs.leftCurrentAmps = new double[] {(tLF.getSupplyCurrent())};
 
-        inputs.rightOutputVolts = TRF.getMotorOutputVoltage();
-        inputs.rightTempCelsius = new double[] {(TRF.getTemperature())};
-        inputs.rightCurrentAmps = new double[] {(TRF.getSupplyCurrent())};
+        inputs.rightOutputVolts = tRF.getMotorOutputVoltage();
+        inputs.rightTempCelsius = new double[] {(tRF.getTemperature())};
+        inputs.rightCurrentAmps = new double[] {(tRF.getSupplyCurrent())};
     }
 
     @Override
     public void setVolts(double left, double right) {
-        TLF.set(TalonSRXControlMode.PercentOutput, left);
-        TRF.set(TalonSRXControlMode.PercentOutput, right);
+        tLF.set(TalonSRXControlMode.PercentOutput, left);
+        tRF.set(TalonSRXControlMode.PercentOutput, right);
     }
 
 }
