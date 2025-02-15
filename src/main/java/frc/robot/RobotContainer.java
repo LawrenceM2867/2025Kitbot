@@ -15,15 +15,14 @@ import frc.robot.Subsystems.Roller.RollerSparkMax;
 import frc.robot.Subsystems.Roller.RollerSubsystem;
 
 public class RobotContainer {
-  // Create a new Xbox controller on port 0
   CommandXboxController controller = new CommandXboxController(0);
 
   DrivetrainSubsystem drivetrainSubsystem;
   RollerSubsystem rollerSubsystem;
 
   public RobotContainer() {
-    drivetrainSubsystem = new DrivetrainSubsystem(new DrivetrainTalonSRX()); //change this for when using sim
-    rollerSubsystem = new RollerSubsystem(new RollerSparkMax()); //idk how to do sim for this
+    drivetrainSubsystem = new DrivetrainSubsystem(new DrivetrainTalonSRX());
+    rollerSubsystem = new RollerSubsystem(new RollerSparkMax());
     configureBindings();
   }
 
