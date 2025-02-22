@@ -12,17 +12,20 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Subsystems.Roller.RollerIO.RollerIOInputs;
 
 public class RollerSubsystem extends SubsystemBase {
-    RollerIO io;
-    RollerIOInputs inputs = new RollerIOInputs();
+    RollerIO io; //the IO interface
+    RollerIOInputs inputs = new RollerIOInputs(); //the inputs used for the drivetrain
 
+    //sets the roller to the sparkmax io
     public RollerSubsystem(RollerIO io) {
         this.io = io;
     }
 
+    //the command to spin the roller (uses setVoltages())
     public Command runRoller(DoubleSupplier speed) {
         return new RunCommand(() -> this.setVoltages(speed.getAsDouble()), this);
     }
     
+    //sets the voltages for the motor, used by the command runRoller()
     private void setVoltages(double speed) {
         io.setVolts(speed);
     }

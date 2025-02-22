@@ -6,6 +6,7 @@ package frc.robot;
 
 public final class Constants {
     public static class MotorConstants {
+        //all of the real motor IDs for the robot, used to know which motor is being used
         public static final int LBTalonID = 3;
         public static final int LFTalonID = 1;
         public static final int RFTalonID = 2;
@@ -15,6 +16,7 @@ public final class Constants {
     }
 
     public static class SimConstants {
+        //the simulation motor IDs
         public static final int drivetrainLeftFalconID = 0;
         public static final int drivetrainRightFalconID = 1;
     }

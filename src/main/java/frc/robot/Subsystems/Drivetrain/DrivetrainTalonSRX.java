@@ -11,24 +11,30 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import frc.robot.Constants.MotorConstants;
 
 public class DrivetrainTalonSRX implements DrivetrainIO {
+    //creates all of the motors
     TalonSRX tLF = new TalonSRX(MotorConstants.LFTalonID);
     TalonSRX tLB = new TalonSRX(MotorConstants.LBTalonID);
     TalonSRX tRF = new TalonSRX(MotorConstants.RFTalonID);
     TalonSRX tRB = new TalonSRX(MotorConstants.RBTalonID);
 
+    //initalization
     public DrivetrainTalonSRX() {
+        //sets the motors to coast
         tLF.setNeutralMode(NeutralMode.Coast);
         tRF.setNeutralMode(NeutralMode.Coast);
 
+        //inverts the left motors
         tLF.setInverted(true);
         tLB.setInverted(true);
 
+        //makes the back motors follow the ones on the front
         tLB.follow(tLF);
         tRB.follow(tRF);
     }
 
     @Override
     public void updateInputs(DrivetrainIOInputs inputs) {
+        //updates the inputs to log them
         inputs.leftOutputVolts = tLF.getMotorOutputVoltage();
         inputs.leftTempCelsius = new double[] {(tLF.getTemperature())};
         inputs.leftCurrentAmps = new double[] {(tLF.getSupplyCurrent())};
@@ -40,6 +46,7 @@ public class DrivetrainTalonSRX implements DrivetrainIO {
 
     @Override
     public void setVolts(double left, double right) {
+        //sets the voltages of the front motors, the back ones will always follow them
         tLF.set(TalonSRXControlMode.PercentOutput, left);
         tRF.set(TalonSRXControlMode.PercentOutput, right);
     }

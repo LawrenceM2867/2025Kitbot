@@ -14,28 +14,34 @@ import frc.robot.Subsystems.Roller.RollerSparkMax;
 import frc.robot.Subsystems.Roller.RollerSubsystem;
 
 public class RobotContainer {
+  //the controller being used to control the robot
   CommandXboxController controller = new CommandXboxController(0);
 
+  //the subsystems that will be used
   DrivetrainSubsystem drivetrainSubsystem;
   RollerSubsystem rollerSubsystem;
 
   public RobotContainer() {
-    drivetrainSubsystem = new DrivetrainSubsystem(new DrivetrainTalonSRX()); //or new DrivetrainIOSim()
+    //sets the subsystems, you can change the drivetrain one to DrivetrainIOSim() for it to work on the simulator
+    drivetrainSubsystem = new DrivetrainSubsystem(new DrivetrainTalonSRX());
     rollerSubsystem = new RollerSubsystem(new RollerSparkMax());
-    configureBindings();
+    configureBindings(); //configures the bindings
   }
 
   private void configureBindings() {
+    //controls the differential drivetrain with the left joystick (up/down to move and left/right to turn)
     drivetrainSubsystem.setDefaultCommand(
       drivetrainSubsystem.setVoltagesArcadeCommand(
         () -> -modifyJoystick(controller.getLeftY()) / 2,
         () -> modifyJoystick(controller.getLeftX()) / 2));
 
+    //controls the roller with the right joystick (up/down to move it foward and backwards :)
     rollerSubsystem.setDefaultCommand(
       rollerSubsystem.runRoller(
         () -> MathUtil.applyDeadband(controller.getRightY(), 0.1) / 4));
   }
-
+  
+  //more math to add a lerp effect to the joystick (also cuts it off if it's too low)
   private double modifyJoystick(double in) {
     if (Math.abs(in) < 0.05) {
       return 0;
@@ -43,6 +49,7 @@ public class RobotContainer {
     return in * in * Math.signum(in);
   }
 
+  //automonous commands, were not used
   public Command getAutonomousCommand() {
     return Commands.print("No autonomous command configured");
   }

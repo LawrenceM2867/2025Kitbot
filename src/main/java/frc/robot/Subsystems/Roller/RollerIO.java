@@ -7,5 +7,5 @@ package frc.robot.Subsystems.Roller;
 import org.littletonrobotics.junction.AutoLog;
 
 public interface RollerIO {
-    public abstract void setVolts(double speed);
+    public abstract void setVolts(double speed); //function to set volts for the motors
 }

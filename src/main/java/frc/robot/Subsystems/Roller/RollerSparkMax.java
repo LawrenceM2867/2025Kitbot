@@ -10,12 +10,14 @@ import com.revrobotics.spark.SparkMax;
 import frc.robot.Constants.MotorConstants;
 
 public class RollerSparkMax implements RollerIO {
+    //the motor for the roller on th top
     private final SparkMax rollermotor = new SparkMax(MotorConstants.rollerID, MotorType.kBrushless);
 
     public RollerSparkMax() {
-        rollermotor.setCANTimeout(250);
+        rollermotor.setCANTimeout(250); //sets the timeout for the motor
     }
 
+    //sets the voltages for the motor
     @Override
     public void setVolts(double speed) {
         rollermotor.set(speed);

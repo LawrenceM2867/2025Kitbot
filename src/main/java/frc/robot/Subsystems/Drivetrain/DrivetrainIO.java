@@ -5,6 +5,7 @@ import org.littletonrobotics.junction.AutoLog;
 public interface DrivetrainIO {
     @AutoLog
     public static class DrivetrainIOInputs {
+        //inputs that are updated with updateInputs
         public double leftVelocityMetersPerSecond = 0.0;
         public double rightVelocityMetersPerSecond = 0.0;
 
@@ -20,7 +21,7 @@ public interface DrivetrainIO {
         public double rightOutputVolts = 0.0;
     }
 
-    public abstract void updateInputs(DrivetrainIOInputs inputs);
+    public abstract void updateInputs(DrivetrainIOInputs inputs); //function to update the inputs for the motors
 
-    public abstract void setVolts(double left, double right);
+    public abstract void setVolts(double left, double right); //function to set volts for the motors
 }
