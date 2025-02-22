@@ -8,7 +8,6 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-//import frc.robot.Subsystems.Drivetrain.DrivetrainIOSim;
 import frc.robot.Subsystems.Drivetrain.DrivetrainSubsystem;
 import frc.robot.Subsystems.Drivetrain.DrivetrainTalonSRX;
 import frc.robot.Subsystems.Roller.RollerSparkMax;
@@ -21,7 +20,7 @@ public class RobotContainer {
   RollerSubsystem rollerSubsystem;
 
   public RobotContainer() {
-    drivetrainSubsystem = new DrivetrainSubsystem(new DrivetrainTalonSRX());
+    drivetrainSubsystem = new DrivetrainSubsystem(new DrivetrainTalonSRX()); //or new DrivetrainIOSim()
     rollerSubsystem = new RollerSubsystem(new RollerSparkMax());
     configureBindings();
   }

@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-/** Add your docs here. */
 public final class Constants {
     public static class MotorConstants {
         public static final int LBTalonID = 3;

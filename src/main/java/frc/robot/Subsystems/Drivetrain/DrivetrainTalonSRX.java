@@ -10,9 +10,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import frc.robot.Constants.MotorConstants;
 
-/** Add your docs here. */
 public class DrivetrainTalonSRX implements DrivetrainIO {
-
     TalonSRX tLF = new TalonSRX(MotorConstants.LFTalonID);
     TalonSRX tLB = new TalonSRX(MotorConstants.LBTalonID);
     TalonSRX tRF = new TalonSRX(MotorConstants.RFTalonID);
@@ -45,5 +43,4 @@ public class DrivetrainTalonSRX implements DrivetrainIO {
         tLF.set(TalonSRXControlMode.PercentOutput, left);
         tRF.set(TalonSRXControlMode.PercentOutput, right);
     }
-
 }

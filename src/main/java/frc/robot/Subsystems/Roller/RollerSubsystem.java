@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Subsystems.Roller.RollerIO.RollerIOInputs;
 
-/** Add your docs here. */
 public class RollerSubsystem extends SubsystemBase {
     RollerIO io;
     RollerIOInputs inputs = new RollerIOInputs();
@@ -20,16 +19,11 @@ public class RollerSubsystem extends SubsystemBase {
         this.io = io;
     }
 
-    @Override
-    public void periodic() {
-        io.updateInputs(inputs);
-    }
-
     public Command runRoller(DoubleSupplier speed) {
         return new RunCommand(() -> this.setVoltages(speed.getAsDouble()), this);
     }
     
     private void setVoltages(double speed) {
         io.setVolts(speed);
-      }
+    }
 }

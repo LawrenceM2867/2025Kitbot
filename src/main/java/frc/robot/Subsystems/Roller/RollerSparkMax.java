@@ -9,17 +9,11 @@ import com.revrobotics.spark.SparkMax;
 
 import frc.robot.Constants.MotorConstants;
 
-/** Add your docs here. */
 public class RollerSparkMax implements RollerIO {
     private final SparkMax rollermotor = new SparkMax(MotorConstants.rollerID, MotorType.kBrushless);
 
     public RollerSparkMax() {
         rollermotor.setCANTimeout(250);
-    }
-
-    @Override
-    public void updateInputs(RollerIOInputs inputs) {
-        
     }
 
     @Override

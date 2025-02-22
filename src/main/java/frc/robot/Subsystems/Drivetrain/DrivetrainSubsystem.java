@@ -39,19 +39,16 @@ public class DrivetrainSubsystem extends SubsystemBase {
     }, this);
   }
 
-  /** Creates a new DrivetrainSubsystem. */
   public DrivetrainSubsystem(DrivetrainIO io) {
     this.io = io;
   }
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
     io.updateInputs(inputs);
     //Logger.processInputs("Drivetrain", inputs);
     odometry.update(
     odometry.getPoseMeters().getRotation()
-        // Use differential drive kinematics to find the rotation rate based on the wheel speeds and distance between wheels
         .plus(Rotation2d.fromRadians((inputs.leftVelocityMetersPerSecond - inputs.rightVelocityMetersPerSecond)
             * 0.020 / Units.inchesToMeters(26))),
     inputs.leftPositionMeters, inputs.rightPositionMeters);

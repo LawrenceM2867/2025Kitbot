@@ -13,12 +13,9 @@ import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim.KitbotWheelSiz
 import edu.wpi.first.wpilibj.simulation.RoboRioSim;
 import frc.robot.Constants.SimConstants;
 
-/** Add your docs here. */
 public class DrivetrainIOSim implements DrivetrainIO {
-
     TalonFX leftFalcon = new TalonFX(SimConstants.drivetrainLeftFalconID);
     TalonFX rightFalcon = new TalonFX(SimConstants.drivetrainRightFalconID);
-    
     
     VoltageOut leftVoltage = new VoltageOut(0);
     VoltageOut rightVoltage = new VoltageOut(0);
@@ -51,8 +48,9 @@ public class DrivetrainIOSim implements DrivetrainIO {
         inputs.rightPositionMeters = physicsSim.getRightPositionMeters();
 
         inputs.leftCurrentAmps = new double[] {leftSimState.getTorqueCurrent()};
-        inputs.leftTempCelsius = new double[0];
         inputs.rightCurrentAmps = new double[] {rightSimState.getTorqueCurrent()};
+
+        inputs.leftTempCelsius = new double[0];
         inputs.rightTempCelsius = new double[0];
     }
 
