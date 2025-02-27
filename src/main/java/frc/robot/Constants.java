@@ -12,12 +12,12 @@ public final class Constants {
         public static final int RFTalonID = 2;
         public static final int RBTalonID = 4;
 
-        public static final int rollerID = 11;
+        public static final int RollerID = 11;
     }
 
     public static class SimConstants {
         //the simulation motor IDs
-        public static final int drivetrainLeftFalconID = 0;
-        public static final int drivetrainRightFalconID = 1;
+        public static final int DrivetrainLeftFalconID = 0;
+        public static final int DrivetrainRightFalconID = 1;
     }
 }

@@ -8,10 +8,10 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.Subsystems.Drivetrain.DrivetrainSubsystem;
-import frc.robot.Subsystems.Drivetrain.DrivetrainTalonSRX;
-import frc.robot.Subsystems.Roller.RollerSparkMax;
-import frc.robot.Subsystems.Roller.RollerSubsystem;
+import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
+import frc.robot.subsystems.drivetrain.DrivetrainTalonSRX;
+import frc.robot.subsystems.roller.RollerSparkMax;
+import frc.robot.subsystems.roller.RollerSubsystem;
 
 public class RobotContainer {
   //the controller being used to control the robot
