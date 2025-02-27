@@ -32,13 +32,13 @@ public class RobotContainer {
     //controls the differential drivetrain with the left joystick (up/down to move and left/right to turn)
     drivetrainSubsystem.setDefaultCommand(
       drivetrainSubsystem.setVoltagesArcadeCommand(
-        () -> -modifyJoystick(controller.getLeftY()) / 2,
-        () -> modifyJoystick(controller.getLeftX()) / 2));
+        () -> -modifyJoystick(controller.getLeftY()),
+        () -> modifyJoystick(controller.getLeftX())));
 
     //controls the roller with the right joystick (up/down to move it foward and backwards :)
     rollerSubsystem.setDefaultCommand(
       rollerSubsystem.runRoller(
-        () -> MathUtil.applyDeadband(controller.getRightY(), 0.1) / 4));
+        () -> MathUtil.applyDeadband(controller.getRightY(), 0.1) / 2));
   }
   
   //more math to add a lerp effect to the joystick (also cuts it off if it's too low)
