@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
 import frc.robot.subsystems.drivetrain.DrivetrainTalonSRX;
+import frc.robot.subsystems.drivetrain.DrivetrainIOSim;
 import frc.robot.subsystems.roller.RollerSparkMax;
 import frc.robot.subsystems.roller.RollerSubsystem;
 
@@ -23,7 +24,7 @@ public class RobotContainer {
 
   public RobotContainer() {
     //sets the subsystems, you can change the drivetrain one to DrivetrainIOSim() for it to work on the simulator
-    drivetrainSubsystem = new DrivetrainSubsystem(new DrivetrainTalonSRX());
+    drivetrainSubsystem = new DrivetrainSubsystem(new DrivetrainIOSim());
     rollerSubsystem = new RollerSubsystem(new RollerSparkMax());
     configureBindings(); //configures the bindings
   }
